@@ -28,15 +28,14 @@ parserCommand :: Parser Command
 parserCommand = subparser $
     command "new" (parserNew `withInfo` "Add new entry.") <>
     command "list" (parserList `withInfo` "List tasks.") <>
-    command "update" (parserUpdate `withInfo` "Update a task without deleting.") <>
+    command "update" (parserUpdate `withInfo` "Update a task.") <>
     command "delete" (parserDelete `withInfo` "Delete a task.")
 
 parserInfoCommand :: ParserInfo Command
-parserInfoCommand = info parserCommand (progDesc "Manage address book.")
+parserInfoCommand = info parserCommand (progDesc "Manage todo list.")
 
 withInfo :: Parser a -> String -> ParserInfo a
 withInfo opts desc = info (helper <*> opts) $ progDesc desc
-
 
 main :: IO ()
 main = do
@@ -47,6 +46,9 @@ main = do
 -- New "write"
 -- $ stack exec -- todo delete "write"
 -- Delete "write"
+
+-- $ stack exec -- todo new --help
+
 
 
 -- in ghci you can do this to play with it:
