@@ -4,7 +4,7 @@ This is a project built for the Austin Haskell Meetup. It is the first end-to-en
 
 ## Prerequisites
 
- To get the most out of this project, it's helpful if:
+To get the most out of this project, it's helpful if:
 
  - you are comfortable with Haskell syntax;  
  - you have a solid understanding of types and typeclasses;
@@ -19,8 +19,18 @@ This is a project built for the Austin Haskell Meetup. It is the first end-to-en
  - how to parse command line arguments and query SQL databases using Haskell.  
 
 
- ## Overview
+## Overview
 
  The command-line argument parsing and the parts of the program the user interacts with are in app/Main.hs. The database stuff is mostly in src/Lib.hs. 
 
- ## Using this project
+## Using this project
+
+## Reading
+
+[optparse docs](https://github.com/pcapriotti/optparse-applicative)
+
+[24 Days of Hackage: optparse](https://ocharles.org.uk/blog/posts/2012-12-17-24-days-of-hackage-optparse-applicative.html)
+
+[Brisbin optparse](https://robots.thoughtbot.com/applicative-options-parsing-in-haskell)
+
+[optparse quickstart](https://ro-che.info/articles/2016-12-30-optparse-applicative-quick-start)
