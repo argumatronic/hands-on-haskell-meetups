@@ -20,7 +20,7 @@ main :: IO ()
 main = execParser opts >>= runWithOptions
 -- execParser :: ParserInfo a -> IO a
   where
-    parser = Welcome <$> argument str (metavar "NAME")  -- the metavar sets usage information
+    parser = Welcome <$> argument str  -- the metavar sets usage information
                      <*> switch (short 'e' <>
                                long "excited")
     -- opts = info parser mempty
