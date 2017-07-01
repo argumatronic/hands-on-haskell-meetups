@@ -46,11 +46,11 @@ main = do
           { connectHost = "localhost"
           , connectUser = "root"
           , connectPassword = "root"
-          , connectDatabase = "mysql"
+          , connectDatabase = "todo"
           }
     conn <- connect connectInfo
-    [Only i] <- query_ conn "select 2 + 2" :: IO [Only Int]
-    print i
+    result <- query_ conn "SELECT id, title FROM todo;" :: IO [(Int, String)]
+    print result
     command <- customExecParser (prefs showHelpOnEmpty) parserInfoCommand
     case command of
       New taskTitle -> newTask taskTitle

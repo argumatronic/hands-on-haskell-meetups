@@ -41,3 +41,5 @@ To get the most out of this project, it's helpful if:
 * Step 2: Switch the command line parser to use the `newtype`s
 * Step 3: Add stub functions for handling the different commands
 * Step 4: Set up the MySQL connection
+* Step 5: Set up the MySQL database with test data
+  * Run `database.sql` on your MySQL database server
