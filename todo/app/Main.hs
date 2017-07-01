@@ -77,7 +77,9 @@ updateTask :: Connection -> TaskId -> TaskTitle -> IO ()
 updateTask conn taskId newTaskTitle = putStrLn $ "Updating task " ++ (show $ unTaskId $ taskId) ++ " with title: " ++ (unTaskTitle newTaskTitle)
 
 deleteTask :: Connection -> TaskId -> IO ()
-deleteTask conn taskId = putStrLn $ "Deleting task " ++ (show $ unTaskId $ taskId)
+deleteTask conn taskId = do
+  deleteTaskIO conn taskId
+  putStrLn $ "Deleted task " ++ (show $ unTaskId $ taskId)
 
 -- $ stack exec -- todo new "write"
 -- New "write"

@@ -45,3 +45,4 @@ To get the most out of this project, it's helpful if:
   * Run `database.sql` on your MySQL database server
 * Step 6: Implement listing tasks from the database
 * Step 7: Implement creating a new task in the database
+* Step 8: Implement deleting a task from the database

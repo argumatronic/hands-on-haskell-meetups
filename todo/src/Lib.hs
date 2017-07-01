@@ -8,6 +8,7 @@ module Lib
     , TaskTitle(..)
     , listTasksIO
     , newTaskIO
+    , deleteTaskIO
     ) where
 
 import Control.Monad (void)
@@ -60,3 +61,7 @@ newTaskIO conn (TaskFields taskTitle) = do
   void $ execute conn "INSERT INTO todo (title) VALUES (?)" (Only taskTitle)
   rawTaskId <- insertID conn
   return $ fromIntegral rawTaskId
+
+-- Delete
+deleteTaskIO :: Connection -> TaskId -> IO ()
+deleteTaskIO conn taskId = void $ execute conn "DELETE FROM todo WHERE id=?" (Only taskId)
