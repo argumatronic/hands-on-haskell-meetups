@@ -1,7 +1,10 @@
+{-# LANGUAGE OverloadedStrings #-}
+
 module Main where
 
-import Options.Applicative
+import Database.MySQL.Simple
 import Data.Monoid ((<>))
+import Options.Applicative
 
 import Lib
 
@@ -38,6 +41,16 @@ withInfo opts desc = info (helper <*> opts) $ progDesc desc
 
 main :: IO ()
 main = do
+    -- Replace the MySQl connection information below:
+    let connectInfo = defaultConnectInfo
+          { connectHost = "localhost"
+          , connectUser = "root"
+          , connectPassword = "root"
+          , connectDatabase = "mysql"
+          }
+    conn <- connect connectInfo
+    [Only i] <- query_ conn "select 2 + 2" :: IO [Only Int]
+    print i
     command <- customExecParser (prefs showHelpOnEmpty) parserInfoCommand
     case command of
       New taskTitle -> newTask taskTitle
