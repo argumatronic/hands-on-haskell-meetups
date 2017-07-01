@@ -5,23 +5,23 @@ import Data.Monoid ((<>))
 
 import Lib
 
-data Command = New String
+data Command = New TaskTitle
              | List
-             | Update Int String
-             | Delete Int
+             | Update TaskId TaskTitle
+             | Delete TaskId
              deriving (Eq, Show)
 
 parserNew :: Parser Command
-parserNew = New <$> strArgument (metavar "TASK_TITLE")
+parserNew = New <$> (TaskTitle <$> strArgument (metavar "TASK_TITLE"))
 
 parserList :: Parser Command
 parserList = pure List
 
 parserUpdate :: Parser Command
-parserUpdate = Update <$> argument auto (metavar "TASK_ID") <*> strArgument (metavar "TASK_TITLE")
+parserUpdate =  Update <$> (TaskId <$> argument auto (metavar "TASK_ID")) <*> (TaskTitle <$> strArgument (metavar "TASK_TITLE"))
 
 parserDelete :: Parser Command
-parserDelete = Delete <$> argument auto (metavar "TASK_ID")
+parserDelete = Delete <$> (TaskId <$> argument auto (metavar "TASK_ID"))
 
 parserCommand :: Parser Command
 parserCommand = subparser $

@@ -38,3 +38,4 @@ To get the most out of this project, it's helpful if:
 ## Implementing database storage
 
 * Step 1: Finish up the command line parser to support our operations
+* Step 2: Switch the command line parser to use the `newtype`s
