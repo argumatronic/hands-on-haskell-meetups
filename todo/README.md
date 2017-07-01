@@ -47,3 +47,4 @@ To get the most out of this project, it's helpful if:
 * Step 7: Implement creating a new task in the database
 * Step 8: Implement deleting a task from the database
 * Step 9: Implement updating a task from the database
+* Step 10: Code cleanup

@@ -29,6 +29,7 @@ executable todo
                      , todo
                      , mysql-simple
                      , optparse-applicative
+  other-modules:       CommandLineParser
   default-language:    Haskell2010
 
 test-suite todo-test

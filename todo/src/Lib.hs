@@ -16,18 +16,6 @@ import Control.Monad (void)
 import Database.MySQL.Simple
 import Database.MySQL.Simple.Param
 import Database.MySQL.Simple.Result
--- import Database.PostgreSQL.Simple
---         ( Connection
---         , ConnectInfo(..)
---         , Only(..)
---         , connect
---         , execute
---         , fromOnly
---         , query
---         , query_
---         )
--- import Database.PostgreSQL.Simple.FromField (FromField)
--- import Database.PostgreSQL.Simple.ToField (ToField)
 import Data.Maybe (listToMaybe)
 import Data.String (IsString)
 import Data.Text (Text, pack)
@@ -37,10 +25,7 @@ data TaskFields = TaskFields TaskTitle deriving Show
 
 newtype TaskId = TaskId { unTaskId :: Int } deriving (Eq, Show, Param, Result)
 newtype TaskTitle = TaskTitle { unTaskTitle :: String } deriving (Eq, Show, Param, Result)
-
-
--- newtype TaskCompleted = TaskCompleted { unTaskCompleted :: Bool } deriving (Eq, Show)
--- add start/finish date, possibility of repeating task, notes field? update could update
+-- add completion, start/finish date, possibility of repeating task, notes field? update could update
 -- any of those then? rather than just flipping a boolean flag. priority field.
 -- task dependencies.
 
