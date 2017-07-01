@@ -1,13 +1,17 @@
 {-# LANGUAGE GeneralizedNewtypeDeriving #-}
+{-# LANGUAGE OverloadedStrings #-}
 
 module Lib
     ( Task(..)
     , TaskId(..)
     , TaskFields(..)
     , TaskTitle(..)
+    , listTasksIO
     ) where
 
 import Control.Monad (void)
+import Database.MySQL.Simple
+import Database.MySQL.Simple.Result
 -- import Database.PostgreSQL.Simple
 --         ( Connection
 --         , ConnectInfo(..)
@@ -27,11 +31,22 @@ import Data.Text (Text, pack)
 data Task = Task TaskId TaskFields deriving Show
 data TaskFields = TaskFields TaskTitle deriving Show
 
-newtype TaskId = TaskId { unTaskId :: Int } deriving (Eq, Show)
-newtype TaskTitle = TaskTitle { unTaskTitle :: String } deriving (Eq, Show)
+newtype TaskId = TaskId { unTaskId :: Int } deriving (Eq, Show, Result)
+newtype TaskTitle = TaskTitle { unTaskTitle :: String } deriving (Eq, Show, Result)
 
 
 -- newtype TaskCompleted = TaskCompleted { unTaskCompleted :: Bool } deriving (Eq, Show)
 -- add start/finish date, possibility of repeating task, notes field? update could update
 -- any of those then? rather than just flipping a boolean flag. priority field.
 -- task dependencies.
+
+listTasksIO :: Connection -> IO [Task]
+listTasksIO conn = do
+  res <- listTasksDb conn
+  return $ fmap tupleToTask res
+
+tupleToTask :: (TaskId, TaskTitle) -> Task
+tupleToTask (taskId, taskTitle) = Task taskId (TaskFields taskTitle)
+
+listTasksDb :: Connection -> IO [(TaskId, TaskTitle)]
+listTasksDb conn = query_ conn "SELECT id, title FROM todo;"

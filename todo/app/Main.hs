@@ -2,6 +2,7 @@
 
 module Main where
 
+import Control.Monad
 import Database.MySQL.Simple
 import Data.Monoid ((<>))
 import Options.Applicative
@@ -41,7 +42,7 @@ withInfo opts desc = info (helper <*> opts) $ progDesc desc
 
 main :: IO ()
 main = do
-    -- Replace the MySQl connection information below:
+    -- Replace the MySQL connection information below:
     let connectInfo = defaultConnectInfo
           { connectHost = "localhost"
           , connectUser = "root"
@@ -49,26 +50,32 @@ main = do
           , connectDatabase = "todo"
           }
     conn <- connect connectInfo
-    result <- query_ conn "SELECT id, title FROM todo;" :: IO [(Int, String)]
-    print result
     command <- customExecParser (prefs showHelpOnEmpty) parserInfoCommand
     case command of
-      New taskTitle -> newTask taskTitle
-      List -> listTasks
-      Update taskId taskTitle -> updateTask taskId taskTitle
-      Delete taskId -> deleteTask taskId
+      New taskTitle -> newTask conn taskTitle
+      List -> listTasks conn
+      Update taskId taskTitle -> updateTask conn taskId taskTitle
+      Delete taskId -> deleteTask conn taskId
 
-newTask :: TaskTitle -> IO ()
-newTask taskTitle = putStrLn $ "Creating a new task: " ++ (unTaskTitle taskTitle)
+newTask :: Connection -> TaskTitle -> IO ()
+newTask conn taskTitle = putStrLn $ "Creating a new task: " ++ (unTaskTitle taskTitle)
 
-listTasks :: IO ()
-listTasks = putStrLn "Listing tasks"
+listTasks :: Connection -> IO ()
+listTasks conn = do
+  tasks <- listTasksIO conn
+  forM_ tasks printTask
 
-updateTask :: TaskId -> TaskTitle -> IO ()
-updateTask taskId newTaskTitle = putStrLn $ "Updating task " ++ (show $ unTaskId $ taskId) ++ " with title: " ++ (unTaskTitle newTaskTitle)
+printTask :: Task -> IO ()
+printTask (Task taskId (TaskFields taskTitle)) =
+  let rawTaskId = unTaskId taskId
+      rawTaskTitle = unTaskTitle taskTitle
+  in putStrLn $ (show rawTaskId) ++ ": " ++ rawTaskTitle
 
-deleteTask :: TaskId -> IO ()
-deleteTask taskId = putStrLn $ "Deleting task " ++ (show $ unTaskId $ taskId)
+updateTask :: Connection -> TaskId -> TaskTitle -> IO ()
+updateTask conn taskId newTaskTitle = putStrLn $ "Updating task " ++ (show $ unTaskId $ taskId) ++ " with title: " ++ (unTaskTitle newTaskTitle)
+
+deleteTask :: Connection -> TaskId -> IO ()
+deleteTask conn taskId = putStrLn $ "Deleting task " ++ (show $ unTaskId $ taskId)
 
 -- $ stack exec -- todo new "write"
 -- New "write"
