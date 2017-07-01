@@ -6,23 +6,22 @@ import Data.Monoid ((<>))
 import Lib
 
 data Command = New String
-              | List String
-              | Update String
-              | Delete String
-              deriving (Eq, Show)
+             | List
+             | Update Int String
+             | Delete Int
+             deriving (Eq, Show)
 
 parserNew :: Parser Command
-parserNew = New <$> strArgument (metavar "TASK_NAME")
+parserNew = New <$> strArgument (metavar "TASK_TITLE")
 
 parserList :: Parser Command
-parserList = List <$> strArgument (metavar "NUMBER_OF_TASKS")
+parserList = pure List
 
 parserUpdate :: Parser Command
-parserUpdate = Update <$> strArgument (metavar "TASK_NAME")
+parserUpdate = Update <$> argument auto (metavar "TASK_ID") <*> strArgument (metavar "TASK_TITLE")
 
 parserDelete :: Parser Command
-parserDelete = Delete <$> strArgument (metavar "TASK_NAME")
-
+parserDelete = Delete <$> argument auto (metavar "TASK_ID")
 
 parserCommand :: Parser Command
 parserCommand = subparser $
@@ -32,20 +31,20 @@ parserCommand = subparser $
     command "delete" (parserDelete `withInfo` "Delete a task.")
 
 parserInfoCommand :: ParserInfo Command
-parserInfoCommand = info parserCommand (progDesc "Manage todo list.")
+parserInfoCommand = info (parserCommand) (progDesc "Manage todo list.")
 
 withInfo :: Parser a -> String -> ParserInfo a
 withInfo opts desc = info (helper <*> opts) $ progDesc desc
 
 main :: IO ()
 main = do
-    command <- execParser parserInfoCommand
+    command <- customExecParser (prefs showHelpOnEmpty) parserInfoCommand
     print command
 
 -- $ stack exec -- todo new "write"
 -- New "write"
--- $ stack exec -- todo delete "write"
--- Delete "write"
+-- $ stack exec -- todo delete 1
+-- Delete 1
 
 -- $ stack exec -- todo new --help
 

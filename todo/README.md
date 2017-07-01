@@ -21,7 +21,7 @@ To get the most out of this project, it's helpful if:
 
 ## Overview
 
- The command-line argument parsing and the parts of the program the user interacts with are in app/Main.hs. The database stuff is mostly in src/Lib.hs. 
+ The command-line argument parsing and the parts of the program the user interacts with are in app/Main.hs. The database stuff is mostly in src/Lib.hs.
 
 ## Using this project
 
@@ -34,3 +34,7 @@ To get the most out of this project, it's helpful if:
 [Brisbin optparse](https://robots.thoughtbot.com/applicative-options-parsing-in-haskell)
 
 [optparse quickstart](https://ro-che.info/articles/2016-12-30-optparse-applicative-quick-start)
+
+## Implementing database storage
+
+* Step 1: Finish up the command line parser to support our operations
