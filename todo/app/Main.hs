@@ -39,7 +39,23 @@ withInfo opts desc = info (helper <*> opts) $ progDesc desc
 main :: IO ()
 main = do
     command <- customExecParser (prefs showHelpOnEmpty) parserInfoCommand
-    print command
+    case command of
+      New taskTitle -> newTask taskTitle
+      List -> listTasks
+      Update taskId taskTitle -> updateTask taskId taskTitle
+      Delete taskId -> deleteTask taskId
+
+newTask :: TaskTitle -> IO ()
+newTask taskTitle = putStrLn $ "Creating a new task: " ++ (unTaskTitle taskTitle)
+
+listTasks :: IO ()
+listTasks = putStrLn "Listing tasks"
+
+updateTask :: TaskId -> TaskTitle -> IO ()
+updateTask taskId newTaskTitle = putStrLn $ "Updating task " ++ (show $ unTaskId $ taskId) ++ " with title: " ++ (unTaskTitle newTaskTitle)
+
+deleteTask :: TaskId -> IO ()
+deleteTask taskId = putStrLn $ "Deleting task " ++ (show $ unTaskId $ taskId)
 
 -- $ stack exec -- todo new "write"
 -- New "write"
