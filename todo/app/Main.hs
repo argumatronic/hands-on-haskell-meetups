@@ -58,7 +58,9 @@ main = do
       Delete taskId -> deleteTask conn taskId
 
 newTask :: Connection -> TaskTitle -> IO ()
-newTask conn taskTitle = putStrLn $ "Creating a new task: " ++ (unTaskTitle taskTitle)
+newTask conn taskTitle = do
+  rawTaskId <- newTaskIO conn $ TaskFields taskTitle
+  putStrLn $ "Created a new task \"" ++ (unTaskTitle taskTitle) ++ "\" with ID " ++ (show rawTaskId)
 
 listTasks :: Connection -> IO ()
 listTasks conn = do

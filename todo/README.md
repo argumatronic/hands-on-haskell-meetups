@@ -44,3 +44,4 @@ To get the most out of this project, it's helpful if:
 * Step 5: Set up the MySQL database with test data
   * Run `database.sql` on your MySQL database server
 * Step 6: Implement listing tasks from the database
+* Step 7: Implement creating a new task in the database
