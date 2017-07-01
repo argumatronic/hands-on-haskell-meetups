@@ -74,7 +74,9 @@ printTask (Task taskId (TaskFields taskTitle)) =
   in putStrLn $ (show rawTaskId) ++ ": " ++ rawTaskTitle
 
 updateTask :: Connection -> TaskId -> TaskTitle -> IO ()
-updateTask conn taskId newTaskTitle = putStrLn $ "Updating task " ++ (show $ unTaskId $ taskId) ++ " with title: " ++ (unTaskTitle newTaskTitle)
+updateTask conn taskId newTaskTitle = do
+  updateTaskIO conn taskId newTaskTitle
+  putStrLn $ "Updated task " ++ (show $ unTaskId $ taskId) ++ " with new title: " ++ (unTaskTitle newTaskTitle)
 
 deleteTask :: Connection -> TaskId -> IO ()
 deleteTask conn taskId = do
