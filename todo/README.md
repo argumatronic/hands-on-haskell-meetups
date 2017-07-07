@@ -21,7 +21,7 @@ To get the most out of this project, it's helpful if:
 
 ## Overview
 
- The command-line argument parsing and the parts of the program the user interacts with are in app/Main.hs. The database stuff is mostly in src/Lib.hs. 
+ The command-line argument parsing and the parts of the program the user interacts with are in app/Main.hs. The database stuff is mostly in src/Lib.hs.
 
 ## Using this project
 
@@ -34,3 +34,17 @@ To get the most out of this project, it's helpful if:
 [Brisbin optparse](https://robots.thoughtbot.com/applicative-options-parsing-in-haskell)
 
 [optparse quickstart](https://ro-che.info/articles/2016-12-30-optparse-applicative-quick-start)
+
+## Implementing database storage
+
+* Step 1: Finish up the command line parser to support our operations
+* Step 2: Switch the command line parser to use the `newtype`s
+* Step 3: Add stub functions for handling the different commands
+* Step 4: Set up the MySQL connection
+* Step 5: Set up the MySQL database with test data
+  * Run `database.sql` on your MySQL database server
+* Step 6: Implement listing tasks from the database
+* Step 7: Implement creating a new task in the database
+* Step 8: Implement deleting a task from the database
+* Step 9: Implement updating a task from the database
+* Step 10: Code cleanup
